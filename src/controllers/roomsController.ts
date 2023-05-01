@@ -7,7 +7,10 @@ import {
   updateRoom as updateRoomService,
 } from "../services/roomsService";
 import { uuid } from "uuidv4";
-import { ValidateRoomType, validateRoomParams } from "../utils/RoomValidations";
+import {
+  ValidateRoomType,
+  validateRoomParams,
+} from "../utils/roomsValidations";
 
 export const getAllRooms = async (
   _req: express.Request,
@@ -93,7 +96,7 @@ export const deleteRoom = async (
   try {
     const deleteRoom = await deleteRoomService(req.params.id);
     if (deleteRoom.length === 0) {
-      throw new Error("Room not found");
+      res.send({ status: "Error", data: "Room not found" });
     }
     console.log(deleteRoom);
     return res.send({ status: "Success", data: deleteRoom });

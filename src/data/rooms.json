@@ -8,7 +8,8 @@
     "specialRquest": "Nulla ut erat id mauris vulputate elementum.",
     "roomType": "Nulla ac enim.",
     "roomId": null,
-    "status": "refound"
+    "status": false,
+    "bedType": "single"
   },
   {
     "id": "30ca75bf-89ac-4b51-abda-f8f365a2a45f",
