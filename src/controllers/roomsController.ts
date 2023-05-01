@@ -4,11 +4,21 @@ import {
   getOneRoom as getOneRoomService,
   createRoom as createRoomService,
   deleteRoom as deleteRoomService,
+  updateRoom as updateRoomService,
 } from "../services/roomsService";
+import { uuid } from "uuidv4";
+import { ValidateRoomType, validateRoomParams } from "../utils/RoomValidations";
 
-export const getAllRooms = (_req: express.Request, res: express.Response) => {
-  const getAllRooms = getAllRoomsService();
-  return res.send({ status: "Success", data: getAllRooms });
+export const getAllRooms = async (
+  _req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const getAllRooms = await getAllRoomsService();
+    return res.send({ status: "Success", data: getAllRooms });
+  } catch (error) {
+    return res.send({ status: "Error", data: error });
+  }
 };
 
 export const getOneRoom = async (
@@ -17,20 +27,61 @@ export const getOneRoom = async (
 ) => {
   try {
     const room = await getOneRoomService(req.params.id);
-    console.log(room);
+    if (!room) {
+      return res.send({ status: "Error", data: "Room not found" });
+    }
     return res.send({ status: "Success", data: room });
   } catch (error) {
     return res.send({ status: "Error", data: error });
   }
 };
 
-export const createRoom = (req: express.Request, res: express.Response) => {
+export const createRoom = async (
+  req: express.Request,
+  res: express.Response
+) => {
   try {
-    console.log("esto es el try createRoom");
-    const room = createRoomService(req.body);
-    return res.send({ status: "Success", data: room });
+    const newRoom = req.body;
+    const requiredParams = [
+      "bedType",
+      "status",
+      "facilites",
+      "price",
+      "discount",
+      "doorNumber",
+      "floorNumber",
+    ];
+    const missingParams = requiredParams.filter(
+      (param) => !req.body.hasOwnProperty(param)
+    );
+    if (missingParams.length > 0) {
+      return res.send({
+        status: "Error",
+        message: `Missing required parameters: ${missingParams.join(", ")}`,
+      });
+    }
+
+    if (!ValidateRoomType(req.body)) {
+      return res.send({
+        status: "Error",
+        message: "Invalid room parameter types",
+      });
+    }
+
+    const room = {
+      ...newRoom,
+      id: uuid(),
+      bedType: newRoom.bedType,
+      status: newRoom.status,
+      facilites: newRoom.facilites,
+      price: newRoom.price,
+      discount: newRoom.discount,
+      doorNumber: newRoom.doorNumber,
+      floorNumber: newRoom.floorNumber,
+    };
+    const cretedRoom = await createRoomService(room);
+    return res.send({ status: "Success", data: cretedRoom });
   } catch (error) {
-    console.log("esto es el catch createRoom");
     return res.send({ status: "Error", data: error });
   }
 };
@@ -41,9 +92,31 @@ export const deleteRoom = async (
 ) => {
   try {
     const deleteRoom = await deleteRoomService(req.params.id);
+    if (deleteRoom.length === 0) {
+      throw new Error("Room not found");
+    }
     console.log(deleteRoom);
     return res.send({ status: "Success", data: deleteRoom });
   } catch (error) {
-    return res.send({ status: "Error", data: error });
+    return res.send({ status: "Room not found", data: error });
+  }
+};
+
+export const updateRoom = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    validateRoomParams(req.body);
+
+    const updateRoom = await updateRoomService(req.params.id, req.body);
+
+    if (updateRoom instanceof Error) {
+      return res.send({ status: "Error", message: updateRoom.message });
+    }
+
+    return res.send({ status: "Success", data: updateRoom });
+  } catch (error) {
+    return res.send({ status: "Room not found", data: error });
   }
 };

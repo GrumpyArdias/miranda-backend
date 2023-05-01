@@ -3,13 +3,13 @@ import {
   getOneRoom as getOneRoomDB,
   createRoom as createRoomDB,
   deleteRoom as deleteRoomDB,
-} from "../db/roomDb";
-import { uuid } from "uuidv4";
+  updateRoom as updateRoomDB,
+} from "../db/roomsDb";
 
 import { RoomType } from "../@types/roomTypes";
 
-export const getAllRooms = () => {
-  const getAllRooms = getAllRoomsDB();
+export const getAllRooms = async () => {
+  const getAllRooms = await getAllRoomsDB();
   return getAllRooms;
 };
 
@@ -19,24 +19,19 @@ export const getOneRoom = async (roomId: string) => {
   return room;
 };
 
-export async function createRoom(newRoom: RoomType) {
-  const room = {
-    ...newRoom,
-    id: uuid(),
-    bedType: newRoom.bedType,
-    status: newRoom.status,
-    facilities: newRoom.facilites,
-    price: newRoom.price,
-    discount: newRoom.discount,
-    doorNumber: newRoom.doorNumber,
-    floorNumber: newRoom.floorNumber,
-  };
+export const createRoom = async (newRoom: RoomType) => {
+  const createdRoom = await createRoomDB(newRoom);
 
-  const createdRoom = await createRoomDB(room);
   return createdRoom;
-}
-export const deleteRoom = (roomId: string) => {
-  const deleteRoom = deleteRoomDB(roomId);
-  console.log("this is the delete room in the service", deleteRoom);
+};
+
+export const deleteRoom = async (roomId: string) => {
+  const deleteRoom = await deleteRoomDB(roomId);
   return deleteRoom;
+};
+
+export const updateRoom = async (roomId: string, newRoom: RoomType) => {
+  const updatedRoom = await updateRoomDB(roomId, newRoom);
+
+  return updatedRoom;
 };
