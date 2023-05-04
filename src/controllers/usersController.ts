@@ -19,7 +19,13 @@ export const getAllUsers = async (
 ) => {
   try {
     const getAllUsers = await getAllUsersService();
-    return res.send({ status: "Success", data: getAllUsers });
+    console.log("this is the response of res");
+    console.log(typeof res);
+    if (getAllUsers.length === 0) {
+      return res.send({ status: "Error", data: "No users" });
+    }
+
+    return res.send({ status: 200, data: getAllUsers });
   } catch (error) {
     return res.send({ status: "Error", data: error });
   }
@@ -96,11 +102,11 @@ export const deleteUser = async (
   try {
     const deletedUser = await deleteUserService(req.params.id);
     if (deleteUser.length === 0) {
-      return res.send({ status: "Error", data: "User not found" });
+      return res.send({ status: 404, data: "User not found" });
     }
-    return res.send({ status: "Success", data: deletedUser });
+    return res.send({ status: 204, data: deletedUser });
   } catch (error) {
-    return res.send({ status: "Error", data: error });
+    return res.send({ status: 404, data: "Invalid ID " });
   }
 };
 

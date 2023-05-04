@@ -13,18 +13,14 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        console.log("this is the email", email);
-        console.log("this is the password", password);
         if (Userlogin.email !== email) {
           return done(null, false, { message: "User not found" });
         }
         if (Userlogin.password !== password) {
           return done(null, false, { message: "Wrong Password" });
         }
-
         return done(null, Userlogin, { message: "Logged in Successfully" });
       } catch (error) {
-        console.log("this is the error in the auth login", error);
         return done(error);
       }
     }

@@ -7,7 +7,7 @@ import {
   createBooking as createBookingService,
 } from "../services/bookingsService";
 
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 import {
   validateBookingParams,
   ValidateBookingType,
@@ -80,6 +80,7 @@ export const createBooking = async (
   res: express.Response
 ) => {
   try {
+    console.log("this is the create booking try");
     const newBooking = req.body;
     const requiredParams = [
       "fullName",

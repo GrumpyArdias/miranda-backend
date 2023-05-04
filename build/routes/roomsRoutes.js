@@ -9,5 +9,6 @@ const roomsController_1 = require("../controllers/roomsController");
 router.get("/getAllRooms", roomsController_1.getAllRooms);
 router.get("/getOneRoom/:id", roomsController_1.getOneRoom);
 router.post("/createRoom", roomsController_1.createRoom);
-router.delete("/deleteRoom/id", roomsController_1.deleteRoom);
+router.delete("/deleteRoom/:id", roomsController_1.deleteRoom);
+router.put("/updateRoom/:id", roomsController_1.updateRoom);
 exports.default = router;

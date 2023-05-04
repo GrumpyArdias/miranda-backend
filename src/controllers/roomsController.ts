@@ -6,7 +6,7 @@ import {
   deleteRoom as deleteRoomService,
   updateRoom as updateRoomService,
 } from "../services/roomsService";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 import {
   ValidateRoomType,
   validateRoomParams,

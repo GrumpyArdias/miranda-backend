@@ -3,6 +3,8 @@ import { UserType } from "../@types/userTypes";
 import fs from "fs";
 
 export const getAllUsers = () => {
+  console.log("this is the typeof users");
+  console.log(typeof Users);
   return Users;
 };
 
@@ -13,7 +15,7 @@ export const getOneUser = (userId: string) => {
   return theUser;
 };
 
-export const createUser = (newUser: UserType): UserType[] => {
+export const createUser = (newUser: UserType): UserType => {
   const currentUsers = JSON.parse(
     fs.readFileSync("src/data/users.json", "utf-8")
   );
@@ -22,7 +24,7 @@ export const createUser = (newUser: UserType): UserType[] => {
     "src/data/users.json",
     JSON.stringify(updatedUsers, null, 2)
   );
-  return updatedUsers;
+  return newUser;
 };
 
 export const deleteUser = (userId: string) => {
@@ -35,12 +37,12 @@ export const deleteUser = (userId: string) => {
   fs.writeFileSync("src/data/users.json", JSON.stringify(deletedUser, null, 2));
   return deletedUser;
 };
-
 export const updateUser = async (
   userId: string,
   updates: Partial<UserType>
 ) => {
   const sanitizedUserId = userId.replace(/"/g, "");
+
   const updatedUsers = Users.map((user) => {
     if (user.id === sanitizedUserId) {
       return {
@@ -57,16 +59,17 @@ export const updateUser = async (
   });
 
   if (!updatedUser) {
-    throw new Error(`Usert with id ${sanitizedUserId} not found`);
+    throw new Error(`User with id ${sanitizedUserId} not found`);
   }
+
   fs.writeFileSync(
     "src/data/users.json",
     JSON.stringify(updatedUsers, null, 2)
   );
 
   if (updatedUsers.length === 0) {
-    throw new Error("no Users where updated");
+    throw new Error("No users were updated");
   }
 
-  return updatedUsers;
+  return updatedUser;
 };

@@ -35,11 +35,13 @@ export const createBooking = async (newBooking: BookingType) => {
   );
   const updatedBookings = [...currentBookings, newBooking];
 
+  console.log("this is the new booking  ", newBooking);
+
   fs.writeFileSync(
     "src/data/bookings.json",
     JSON.stringify(updatedBookings, null, 2)
   );
-  return updatedBookings;
+  return newBooking;
 };
 
 export const updateBooking = async (
@@ -47,7 +49,7 @@ export const updateBooking = async (
   updates: Partial<BookingType>
 ) => {
   const sanatizedBookingId = bookingId.replace(/"/g, "");
-
+  console.log("this is the updatebooking ");
   const updatedBookings = Bookings.map((booking) => {
     if (booking.id === sanatizedBookingId) {
       return {
@@ -76,5 +78,5 @@ export const updateBooking = async (
     return new Error(`No rooms were updated`);
   }
 
-  return updatedBookings;
+  return updatedBooking;
 };

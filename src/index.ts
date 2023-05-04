@@ -8,28 +8,29 @@ import "./auth/auth";
 import cors from "cors";
 import bodyParser from "body-parser";
 import passport from "passport";
+
 const app = express();
 const PORT = 3000;
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 import session from "express-session";
 import cookiparser from "cookie-parser";
 
-async function connectToDatabase() {
-  try {
-    const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      autoIndex: true,
-    } as mongoose.ConnectOptions;
+// async function connectToDatabase() {
+//   try {
+//     const options = {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//       autoIndex: true,
+//     } as mongoose.ConnectOptions;
 
-    await mongoose.connect("mongodb://127.0.0.1:27017/passport-jwt", options);
-    console.log("MongoDB connected successfully!");
-  } catch (err) {
-    console.error(`MongoDB connection error: ${err}`);
-  }
-}
+//     await mongoose.connect("mongodb://127.0.0.1:27017/passport-jwt", options);
+//     console.log("MongoDB connected successfully!");
+//   } catch (err) {
+//     console.error(`MongoDB connection error: ${err}`);
+//   }
+// }
 
-connectToDatabase();
+// connectToDatabase();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -71,6 +72,8 @@ app.use(
 
 //-----------------------------------------------------------
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Api listening on port ${PORT}`);
 });
+
+export default app;

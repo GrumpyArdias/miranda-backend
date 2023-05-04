@@ -31,6 +31,10 @@ export const validateBookingParams = (params: any) => {
   const invalidParams = providedParams.filter(
     (param) => !validParams.includes(param)
   );
+  // if (providedParams.length > validParams.length){
+  //   return "extra parameters provided";
+  // }
+
   console.log("this is the invalidParams", invalidParams);
   if (invalidParams.length > 0) {
     return `Invalid parameters provided: ${invalidParams.join(", ")}`;
