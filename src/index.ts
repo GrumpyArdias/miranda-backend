@@ -8,7 +8,6 @@ import "./auth/auth";
 import cors from "cors";
 import bodyParser from "body-parser";
 import passport from "passport";
-
 const app = express();
 const PORT = 3000;
 //import mongoose from "mongoose";
