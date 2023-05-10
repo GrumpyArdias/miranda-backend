@@ -3,7 +3,7 @@ export interface UserType {
   fullName: string;
   email: string;
   joinDate: string;
-  description: string;
+  jobTitle: string;
   status: boolean;
   number: string;
 }

@@ -18,14 +18,8 @@ export const getAllUsers = async (
   res: express.Response
 ) => {
   try {
-    const getAllUsers = await getAllUsersService();
-    console.log("this is the response of res");
-    console.log(typeof res);
-    if (getAllUsers.length === 0) {
-      return res.send({ status: "Error", data: "No users" });
-    }
-
-    return res.send({ status: 200, data: getAllUsers });
+    const allUsers = await getAllUsersService();
+    return res.send({ status: "OK", data: allUsers });
   } catch (error) {
     return res.send({ status: "Error", data: error });
   }

@@ -5,7 +5,7 @@ export const ValidateUserType = (data: any): data is UserType => {
     typeof data.fullName !== "string" ||
     typeof data.email !== "string" ||
     typeof data.joinDate !== "string" ||
-    typeof data.description !== "string" ||
+    typeof data.jobTitle !== "string" ||
     typeof data.status !== "boolean" ||
     typeof data.number !== "string"
   ) {
@@ -19,7 +19,7 @@ export const validateUserParams = (params: any) => {
     "fullName",
     "email",
     "joinDate",
-    "description",
+    "jobTitle",
     "status",
     "number",
   ];

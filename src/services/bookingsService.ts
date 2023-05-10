@@ -1,28 +1,41 @@
+// import {
+//   getAllBookings as getAllBookingsDB,
+//   getOneBooking as getOneBookingDB,
+//   deleteBooking as deleteBookingDB,
+//   createBooking as createBookingDB,
+//   updateBooking as updateBookingDB,
+// } from "../db/bookingsDb";
+// import { BookingType } from "../@types/bookingTypes";
+
 import {
-  getAllBookings as getAllBookingsDB,
-  getOneBooking as getOneBookingDB,
-  deleteBooking as deleteBookingDB,
-  createBooking as createBookingDB,
-  updateBooking as updateBookingDB,
-} from "../db/bookingsDb";
+  getAllBookings as getAllBookingsSql,
+  getBooking as getBookingSql,
+  deleteBooking as deleteBookingSql,
+  createBooking as createBookingSql,
+  updateBooking as updateBookingSql,
+} from "../SQL/bookingsSql";
 import { BookingType } from "../@types/bookingTypes";
 
 export const getAllBookings = async () => {
-  const getAllBookings = await getAllBookingsDB();
+  // const getAllBookings = await getAllBookingsDB();
+  const getAllBookings = await getAllBookingsSql();
   return getAllBookings;
 };
 
 export const getOneBooking = async (bookingId: string) => {
-  const booking = await getOneBookingDB(bookingId);
+  // const booking = await getOneBookingDB(bookingId);
+  const booking = await getBookingSql(bookingId);
   return booking;
 };
 export const deleteBooking = async (bookingId: string) => {
-  const deleteBooking = await deleteBookingDB(bookingId);
+  //const deleteBooking = await deleteBookingDB(bookingId);
+  const deleteBooking = await deleteBookingSql(bookingId);
   return deleteBooking;
 };
 
 export const createBooking = async (newBooking: BookingType) => {
-  const createBooking = await createBookingDB(newBooking);
+  //const createBooking = await createBookingDB(newBooking);
+  const createBooking = await createBookingSql(newBooking);
   return createBooking;
 };
 
@@ -30,6 +43,7 @@ export const updateBooking = async (
   bookingId: string,
   newBooking: BookingType
 ) => {
-  const updatedBooking = await updateBookingDB(bookingId, newBooking);
+  //const updatedBooking = await updateBookingDB(bookingId, newBooking);
+  const updatedBooking = await updateBookingSql(bookingId, newBooking);
   return updatedBooking;
 };

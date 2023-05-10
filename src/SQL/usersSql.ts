@@ -1,115 +1,68 @@
 import { UserType } from "./../@types/userTypes";
-import mysql from "mysql";
-import dotenv from "dotenv";
-dotenv.config();
+import { getSQLDb } from "../utils/sql-conection";
 
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
-
-const conectionStatus = () => {
+export async function getAllUsers() {
   try {
-    connection.connect();
-    console.log("You have been connected to the DB");
-    return true;
-  } catch (err) {
-    console.log("failed to connect to the DB", err);
-    return false;
-  }
-};
-
-conectionStatus();
-
-export function getAllUsers() {
-  try {
-    return new Promise((resolve, reject) => {
-      connection.query("SELECT * FROM users", (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
-    });
+    const connection = await getSQLDb();
+    const getAllUsers = await connection.execute("SELECT * FROM users");
+    return getAllUsers;
   } catch (err) {
     console.log(err);
     return err;
   }
 }
 
-export function getUser({ id }: UserType) {
+export async function getUser(id: string) {
   try {
-    return new Promise((resolve, reject) => {
-      connection.query(`SELECT * FROM users WHERE id=${id}`, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
-    });
+    const connection = await getSQLDb();
+    const getUser = await connection.execute(
+      "SELECT * FROM users WHERE id = ?",
+      [id]
+    );
+    return getUser;
   } catch (err) {
     console.log(err);
     return err;
   }
 }
 
-export function createUser(user: UserType) {
+export async function createUser(user: UserType) {
   try {
-    return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO users SET ?", user, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
-    });
+    const connection = await getSQLDb();
+    const createUser = await connection.execute("INSERT INTO users SET ?", [
+      user,
+    ]);
+    return createUser;
   } catch (err) {
     console.log(err);
     return err;
   }
 }
 
-export function deleteUser({ id }: UserType) {
+export async function deleteUser(id: string) {
   try {
-    return new Promise((resolve, reject) => {
-      connection.query(`DELETE FROM users WHERE id=${id}`, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
-    });
+    const connection = await getSQLDb();
+    const deleteUser = await connection.execute(
+      "DELETE FROM users WHERE id = ?",
+      [id]
+    );
+    return deleteUser;
   } catch (err) {
     console.log(err);
     return err;
   }
 }
 
-export function updateUser(userId: string, updates: Partial<UserType>) {
+export async function updateUser(userId: string, updates: Partial<UserType>) {
   try {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        `UPDATE users SET ? WHERE id=${userId}`,
-        updates,
-        (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        }
-      );
-    });
+    const connection = await getSQLDb();
+    const updateUser = await connection.execute(
+      "UPDATE users SET ? WHERE id = ?",
+      [updates, userId]
+    );
+    return updateUser;
   } catch (err) {
     console.log(err);
     return err;
   }
 }
-
-connection.end();
