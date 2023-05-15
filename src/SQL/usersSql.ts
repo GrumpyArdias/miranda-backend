@@ -2,19 +2,25 @@ import { UserType } from "./../@types/userTypes";
 import { getSQLDb } from "../utils/sql-conection";
 
 export async function getAllUsers() {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const getAllUsers = await connection.execute("SELECT * FROM users");
     return getAllUsers;
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function getUser(id: string) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const getUser = await connection.execute(
       "SELECT * FROM users WHERE id = ?",
       [id]
@@ -23,12 +29,17 @@ export async function getUser(id: string) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function createUser(user: UserType) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const createUser = await connection.execute("INSERT INTO users SET ?", [
       user,
     ]);
@@ -36,12 +47,17 @@ export async function createUser(user: UserType) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function deleteUser(id: string) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const deleteUser = await connection.execute(
       "DELETE FROM users WHERE id = ?",
       [id]
@@ -50,12 +66,20 @@ export async function deleteUser(id: string) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
-export async function updateUser(userId: string, updates: Partial<UserType>) {
+export async function updateUser(
+  userId: string,
+  updates: Omit<Partial<UserType>, "id">
+) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const updateUser = await connection.execute(
       "UPDATE users SET ? WHERE id = ?",
       [updates, userId]
@@ -64,5 +88,9 @@ export async function updateUser(userId: string, updates: Partial<UserType>) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }

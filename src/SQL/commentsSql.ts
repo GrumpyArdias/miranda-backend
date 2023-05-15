@@ -2,19 +2,26 @@ import { CommentsType } from "../@types/commentTypes";
 import { getSQLDb } from "../utils/sql-conection";
 
 export async function getAllComments() {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const getAllComments = await connection.query("SELECT * FROM comments");
     return getAllComments;
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function getComment(id: string) {
+  let connection;
+
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const getComment = await connection.execute(
       "SELECT * FROM comments WHERE id = ?",
       [id]
@@ -23,12 +30,17 @@ export async function getComment(id: string) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function createComment(comment: CommentsType) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const createComment = await connection.execute(
       "INSERT INTO comments SET ?",
       [comment]
@@ -37,12 +49,17 @@ export async function createComment(comment: CommentsType) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function deleteComment(id: string) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const deleteComment = await connection.execute(
       "DELETE FROM comments WHERE id = ?",
       [id]
@@ -51,15 +68,20 @@ export async function deleteComment(id: string) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function updateComment(
   commentId: string,
-  updates: Partial<CommentsType>
+  updates: Omit<Partial<CommentsType>, "id">
 ) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const updateComment = await connection.execute(
       "UPDATE comments SET ? WHERE id = ?",
       [updates, commentId]
@@ -68,5 +90,9 @@ export async function updateComment(
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }

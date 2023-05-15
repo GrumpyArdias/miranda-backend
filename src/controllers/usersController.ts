@@ -8,10 +8,8 @@ import {
   updateUser as updateUserService,
 } from "../services/usersService";
 
-import {
-  ValidateUserType,
-  validateUserParams,
-} from "../utils/usersValidations";
+import { validateUserParams } from "../utils/usersValidations";
+import { userCreateSchema } from "../utils/joi/userJoiValidations";
 
 export const getAllUsers = async (
   _req: express.Request,
@@ -46,33 +44,10 @@ export const createUser = async (
 ) => {
   try {
     const newUser = req.body;
-    const requiredParams = [
-      "fullName",
-      "email",
-      "joinDate",
-      "description",
-      "status",
-      "number",
-    ];
-    const missingParams = requiredParams.filter(
-      (param) => !req.body.hasOwnProperty(param)
-    );
-    if (missingParams.length > 0) {
-      return res.send({
-        status: "Error",
-        message: `Missing required parameters: ${missingParams.join(", ")}`,
-      });
-    }
-
-    if (!ValidateUserType(req.body)) {
-      return res.send({
-        status: "Error",
-        message: "Invalid room parameter types",
-      });
-    }
+    const validateUser = await userCreateSchema.validateAsync(newUser);
 
     const user = {
-      ...newUser,
+      ...validateUser,
       id: uuid(),
       fullName: newUser.fullName,
       email: newUser.email,

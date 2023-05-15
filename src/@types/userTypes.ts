@@ -4,6 +4,6 @@ export interface UserType {
   email: string;
   joinDate: string;
   jobTitle: string;
-  status: boolean;
+  estatus: boolean;
   number: string;
 }

@@ -1,20 +1,27 @@
-import { RoomType } from "../@types/roomTypes";
+import { RoomType } from "./../@types/roomTypes";
+
 import { getSQLDb } from "../utils/sql-conection";
 
 export async function getAllRooms() {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const getAllRooms = await connection.execute("SELECT * FROM rooms");
     return getAllRooms;
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function getRoom(id: string) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const getRoom = await connection.execute(
       "SELECT * FROM rooms WHERE id = ?",
       [id]
@@ -23,12 +30,17 @@ export async function getRoom(id: string) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function createRoom(room: RoomType) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const createRoom = await connection.execute("INSERT INTO rooms SET ?", [
       room,
     ]);
@@ -36,12 +48,17 @@ export async function createRoom(room: RoomType) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
 export async function deleteRoom(id: string) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const deleteRoom = await connection.execute(
       "DELETE FROM rooms WHERE id = ?",
       [id]
@@ -50,12 +67,20 @@ export async function deleteRoom(id: string) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
-export async function updateRoom(roomId: string, updates: Partial<RoomType>) {
+export async function updateRoom(
+  roomId: string,
+  updates: Omit<Partial<RoomType>, "id">
+) {
+  let connection;
   try {
-    const connection = await getSQLDb();
+    connection = await getSQLDb();
     const updateRoom = await connection.execute(
       "UPDATE rooms SET ? WHERE id = ?",
       [updates, roomId]
@@ -64,5 +89,9 @@ export async function updateRoom(roomId: string, updates: Partial<RoomType>) {
   } catch (err) {
     console.log(err);
     return err;
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
