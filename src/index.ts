@@ -10,11 +10,10 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import session from "express-session";
 import cookiparser from "cookie-parser";
-import { runBookings } from "./models/bookingModel";
+
 const app = express();
 const PORT = 3000;
 
-runBookings();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

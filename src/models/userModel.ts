@@ -31,12 +31,13 @@ const userSchema = new mongoose.Schema<UserType>({
   },
 });
 
+export const userModel = mongoose.model("Users", userSchema);
+
 export async function runUsers() {
   let connection;
 
   try {
     connection = await getMongoDb();
-    const userModel = mongoose.model("Users", userSchema);
 
     for (let i = 1; i <= 20; i++) {
       userArr.push(createRandomUser());

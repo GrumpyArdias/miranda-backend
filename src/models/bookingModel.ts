@@ -45,7 +45,7 @@ export async function runBookings() {
     connection = await getMongoDb();
     const bookingModel = mongoose.model("Bookings", bookingSchema);
 
-    for (let i = 0; i <= 20; i++) {
+    for (let i = 1; i <= 20; i++) {
       const newBooking = createRandomBooking();
       newBooking.roomId = rooms[i].id;
       newBooking.roomId = rooms[i].id;

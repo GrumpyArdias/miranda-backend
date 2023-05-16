@@ -9,12 +9,14 @@ import {
 import { v4 as uuid } from "uuid";
 import { roomCreateSchema } from "../utils/joi/roomsJoiValidations";
 import { validateRoomParams } from "../utils/roomsValidations";
+
 export const getAllRooms = async (
   _req: express.Request,
   res: express.Response
 ) => {
   try {
     const getAllRooms = await getAllRoomsService();
+
     return res.send({ status: "Success", data: getAllRooms });
   } catch (error) {
     return res.send({ status: "Error", data: error });
@@ -56,6 +58,7 @@ export const createRoom = async (
       floorNumber: newRoom.floorNumber,
     };
     const cretedRoom = await createRoomService(room);
+    console.log(cretedRoom);
     return res.send({ status: "Success", data: cretedRoom });
   } catch (error) {
     return res.send({ status: "Error", data: error });
