@@ -7,8 +7,8 @@ const roomFacilities = [
   "Kitchen",
   "Free parking",
   "Air conditioning",
-  "Bathub",
-  "CoffeSet",
+  "Bathtub",
+  "Coffee set",
 ];
 
 export function createRandomRoom(): RoomType {
@@ -17,7 +17,10 @@ export function createRandomRoom(): RoomType {
     bedType: faker.helpers.arrayElement(bedKinds),
     estatus: faker.datatype.boolean(),
     facilities: faker.helpers.arrayElements(roomFacilities, 3),
-    price: faker.datatype.number(),
+    price: faker.datatype.number({
+      min: 1,
+      max: 1000,
+    }),
     discount: faker.datatype.number({
       min: 1,
       max: 100,

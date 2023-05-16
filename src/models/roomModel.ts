@@ -18,14 +18,15 @@ const roomSchema = new mongoose.Schema<RoomType>({
     type: Boolean,
   },
   facilities: {
+    type: [String],
     enum: [
       "Wifi",
       "TV",
       "Kitchen",
       "Free parking",
       "Air conditioning",
-      "Bathub",
-      "CoffeSet",
+      "Bathtub",
+      "Coffee set",
     ],
   },
   price: {

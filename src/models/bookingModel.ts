@@ -36,21 +36,25 @@ const bookingSchema = new mongoose.Schema<BookingType>({
     type: String,
   },
 });
+export const bookingModel = mongoose.model("Bookings", bookingSchema);
 
 export async function runBookings() {
   let connection;
-  const rooms = await roomModel.find({});
-
+  const rooms = await roomModel.find();
+  const newBooking = await createRandomBooking();
   try {
     connection = await getMongoDb();
-    const bookingModel = mongoose.model("Bookings", bookingSchema);
 
-    for (let i = 1; i <= 20; i++) {
-      const newBooking = createRandomBooking();
-      newBooking.roomId = rooms[i].id;
-      newBooking.roomId = rooms[i].id;
-      newBooking.roomType = rooms[i].bedType;
-      bookingArr.push(newBooking);
+    for (let i = 1; i < 20; i++) {
+      if (rooms[i].id && rooms[i].bedType) {
+        // console.log(rooms[i].id);
+        // console.log(newBooking.roomId);
+        newBooking.roomId = rooms[i].id;
+        newBooking.roomType = rooms[i].bedType;
+        bookingArr.push(newBooking);
+      } else {
+        throw new Error(`Missing 'id' or 'bedType' for room at index ${i}`);
+      }
     }
     const savedBookings = await bookingModel
       .insertMany(bookingArr)
@@ -62,7 +66,7 @@ export async function runBookings() {
       });
     return savedBookings;
   } catch (err) {
-    console.log("this is the catch error");
+    console.log("this is the catch error", err);
     return err;
   } finally {
     connection?.disconnect();

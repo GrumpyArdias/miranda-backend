@@ -32,13 +32,12 @@ const commentSchema = new mongoose.Schema<CommentsType>({
     type: Boolean,
   },
 });
+export const commentModel = mongoose.model("Comments", commentSchema);
 
 export async function runComments() {
   let connection;
   try {
     connection = await getMongoDb();
-
-    const commentModel = mongoose.model("Comments", commentSchema);
 
     for (let i = 1; i <= 20; i++) {
       commentArr.push(createRandomComment());
