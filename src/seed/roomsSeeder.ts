@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { RoomType } from "../@types/roomTypes";
-const bedKinds = ["Single", "Double", "Double Superior", "Suite"];
+const bedKinds = ["single", "double", "double-superior", "suite"];
 const roomFacilities = [
   "Wifi",
   "TV",
