@@ -2,7 +2,6 @@ import Joi from "joi";
 import { BookingType } from "../../@types/bookingTypes";
 
 export const bookingCreateSchema = Joi.object<BookingType>({
-  id: Joi.string().required().alphanum(),
   fullName: Joi.string().required().min(3).max(50),
   bookingDate: Joi.string().isoDate().required(),
   checkIn: Joi.string().isoDate().required(),

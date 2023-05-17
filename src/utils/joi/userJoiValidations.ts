@@ -2,7 +2,6 @@ import Joi from "joi";
 import { UserType } from "../../@types/userTypes";
 
 export const userCreateSchema = Joi.object<UserType>({
-  id: Joi.string().required().alphanum(),
   fullName: Joi.string().required().min(3).max(50),
   email: Joi.string()
     .required()

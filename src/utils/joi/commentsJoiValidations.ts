@@ -2,7 +2,6 @@ import Joi from "joi";
 import { CommentsType } from "../../@types/commentTypes";
 
 export const commentsCreateSchema = Joi.object<CommentsType>({
-  id: Joi.string().required().alphanum(),
   commentDate: Joi.string().isoDate().required(),
   fullName: Joi.string().required().min(3).max(50),
   email: Joi.string()

@@ -41,16 +41,18 @@ export const bookingModel = mongoose.model("Bookings", bookingSchema);
 export async function runBookings() {
   let connection;
   const rooms = await roomModel.find();
-  const newBooking = await createRandomBooking();
+
   try {
     connection = await getMongoDb();
 
-    for (let i = 1; i < 20; i++) {
+    for (let i = 0; i < 20; i++) {
       if (rooms[i].id && rooms[i].bedType) {
+        const newBooking = createRandomBooking();
         // console.log(rooms[i].id);
         // console.log(newBooking.roomId);
-        newBooking.roomId = rooms[i].id;
-        newBooking.roomType = rooms[i].bedType;
+        const randomNumber = Math.floor(Math.random() * rooms.length);
+        newBooking.roomId = rooms[randomNumber].id;
+        newBooking.roomType = rooms[randomNumber].bedType;
         bookingArr.push(newBooking);
       } else {
         throw new Error(`Missing 'id' or 'bedType' for room at index ${i}`);

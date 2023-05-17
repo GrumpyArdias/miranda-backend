@@ -10,9 +10,17 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import session from "express-session";
 import cookiparser from "cookie-parser";
-
+//import { runBookings } from "./models/bookingModel";
+//import { runRooms } from "./models/roomModel";
+// import { runComments } from "./models/commentModel";
+import { runUsers } from "./models/userModel";
 const app = express();
 const PORT = 3000;
+
+//runBookings();
+//runRooms();
+// runComments();
+runUsers();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
