@@ -32,7 +32,6 @@ export async function getBooking(id: string) {
     );
     return getBooking;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -52,7 +51,6 @@ export async function createBooking(booking: BookingType) {
     );
     return createBooking;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -71,7 +69,6 @@ export async function deleteBooking(id: string) {
     );
     return deleteBooking;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -93,7 +90,6 @@ export async function updateBooking(
     );
     return updateBooking;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {

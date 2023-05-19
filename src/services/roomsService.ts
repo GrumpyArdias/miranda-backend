@@ -42,9 +42,6 @@ export const createRoom = async (newRoom: RoomType) => {
   //const createdRoom = await createRoomDB(newRoom);
   //const createdRoom = await createRoomSql(newRoom);
   const createdRoom = await createRoomMongo(newRoom);
-
-  console.log(createdRoom);
-
   return createdRoom;
 };
 

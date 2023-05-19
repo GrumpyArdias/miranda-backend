@@ -8,7 +8,6 @@ export async function getAllComments() {
     const getAllComments = await connection.query("SELECT * FROM comments");
     return getAllComments;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -28,7 +27,6 @@ export async function getComment(id: string) {
     );
     return getComment;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -47,7 +45,6 @@ export async function createComment(comment: CommentsType) {
     );
     return createComment;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -66,7 +63,6 @@ export async function deleteComment(id: string) {
     );
     return deleteComment;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -88,7 +84,6 @@ export async function updateComment(
     );
     return updateComment;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {

@@ -4,7 +4,6 @@ import { userModel } from "./models/userModel";
 export async function getAllUsers() {
   try {
     const getAllusers = await userModel.find();
-    console.log(getAllusers);
     return getAllusers;
   } catch (err) {
     return err;
@@ -14,7 +13,6 @@ export async function getAllUsers() {
 export async function getUser(id: string) {
   try {
     const getUser = await userModel.findById(id);
-    console.log(getUser);
     return getUser;
   } catch (err) {
     return err;

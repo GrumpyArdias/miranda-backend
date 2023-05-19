@@ -3,10 +3,7 @@ import { roomModel } from "./models/roomModel";
 
 export async function getAllRooms() {
   try {
-    console.log("this is the mongo connector");
-
     const getAllRooms = await roomModel.find();
-    console.log(getAllRooms);
     return getAllRooms;
   } catch (err) {
     return err;
@@ -25,8 +22,6 @@ export async function getRoom(id: string) {
 
 export async function createRoom(room: RoomType) {
   try {
-    console.log(room);
-
     const createRoom = await roomModel.create(room);
     return createRoom;
   } catch (err) {

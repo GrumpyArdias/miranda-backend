@@ -47,10 +47,10 @@ export async function runUsers() {
     const saveUsers = await userModel
       .insertMany(userArr)
       .then((savedUser) => {
-        console.log("User saved", savedUser);
+        console.log(savedUser);
       })
       .catch((err) => {
-        console.log("Error saving Users", err);
+        console.log(err);
       });
     return saveUsers;
   } catch (err) {

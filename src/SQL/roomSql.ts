@@ -9,7 +9,6 @@ export async function getAllRooms() {
     const getAllRooms = await connection.execute("SELECT * FROM rooms");
     return getAllRooms;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -28,7 +27,6 @@ export async function getRoom(id: string) {
     );
     return getRoom;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -46,7 +44,6 @@ export async function createRoom(room: RoomType) {
     ]);
     return createRoom;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -65,7 +62,6 @@ export async function deleteRoom(id: string) {
     );
     return deleteRoom;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -87,7 +83,6 @@ export async function updateRoom(
     );
     return updateRoom;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {

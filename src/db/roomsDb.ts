@@ -11,7 +11,6 @@ export const getOneRoom = (roomId: string) => {
     return room.id === roomId.replace(/"/g, "") ? true : false;
   });
 
-  console.log(theRoom);
   return theRoom;
 };
 
@@ -29,8 +28,6 @@ export const createRoom = (newRoom: RoomType): RoomType[] => {
 
 export const deleteRoom = (roomId: string) => {
   const deletedRoom = Rooms.filter((room) => {
-    console.log("this is the roomID", roomId);
-    console.log("this is the room iD", room.id);
     return room.id !== roomId.replace(/"/g, "");
   });
 
@@ -39,7 +36,6 @@ export const deleteRoom = (roomId: string) => {
   }
 
   fs.writeFileSync("src/data/rooms.json", JSON.stringify(deletedRoom, null, 2));
-  console.log("this is the deletedRoom", deletedRoom);
   return deletedRoom;
 };
 

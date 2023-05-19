@@ -58,7 +58,6 @@ export const createRoom = async (
       floorNumber: newRoom.floorNumber,
     };
     const cretedRoom = await createRoomService(room);
-    console.log(cretedRoom);
     return res.send({ status: "Success", data: cretedRoom });
   } catch (error) {
     return res.send({ status: "Error", data: error });
@@ -71,7 +70,6 @@ export const deleteRoom = async (
 ) => {
   try {
     const deleteRoom = await deleteRoomService(req.params.id);
-    console.log(deleteRoom);
     return res.send({ status: "Success", data: deleteRoom });
   } catch (error) {
     return res.send({ status: "Room not found", data: error });
@@ -85,11 +83,6 @@ export const updateRoom = async (
   try {
     validateRoomParams(req.body);
     const updateRoom = await updateRoomService(req.params.id, req.body);
-
-    if (updateRoom instanceof Error) {
-      return res.send({ status: "Error", message: updateRoom.message });
-    }
-
     return res.send({ status: "Success", data: updateRoom });
   } catch (error) {
     return res.send({ status: "Room not found", data: error });

@@ -91,7 +91,6 @@ export const updateUser = async (
     }
     return res.send({ status: "Success", data: updateUser });
   } catch (error) {
-    console.log(error);
     return res.send({ status: "User not found", data: error });
   }
 };

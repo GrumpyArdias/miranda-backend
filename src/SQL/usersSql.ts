@@ -8,7 +8,6 @@ export async function getAllUsers() {
     const getAllUsers = await connection.execute("SELECT * FROM users");
     return getAllUsers;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -27,7 +26,6 @@ export async function getUser(id: string) {
     );
     return getUser;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -45,7 +43,6 @@ export async function createUser(user: UserType) {
     ]);
     return createUser;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -64,7 +61,6 @@ export async function deleteUser(id: string) {
     );
     return deleteUser;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {
@@ -86,7 +82,6 @@ export async function updateUser(
     );
     return updateUser;
   } catch (err) {
-    console.log(err);
     return err;
   } finally {
     if (connection) {

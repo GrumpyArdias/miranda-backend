@@ -93,7 +93,6 @@ export const updateComment = async (
     }
     return res.send({ status: "Success", data: updatedComment });
   } catch (error) {
-    console.log(error);
     return res.send({ status: "Comment not found", data: error });
   }
 };

@@ -34,7 +34,6 @@ export async function runBookings() {
       });
     return savedBookings;
   } catch (err) {
-    console.log("this is the catch error", err);
     return err;
   } finally {
     connection?.disconnect();
