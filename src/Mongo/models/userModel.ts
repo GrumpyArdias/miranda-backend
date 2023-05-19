@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { UserType } from "../@types/userTypes";
-import { createRandomUser } from "../seed/usersSeeder";
-import { getMongoDb } from "../utils/mongo-connection";
+import { UserType } from "../../@types/userTypes";
+import { createRandomUser } from "../../seed/usersSeeder";
+import { getMongoDb } from "../mongo-connection";
 
 const userArr: UserType[] = [];
 

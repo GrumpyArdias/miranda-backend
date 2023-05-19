@@ -1,42 +1,10 @@
-import { BookingType } from "./../@types/bookingTypes";
-import mongoose from "mongoose";
-import { createRandomBooking } from "../seed/bookingsSeeder";
-import { getMongoDb } from "../utils/mongo-connection";
-import { roomModel } from "./roomModel";
+import { BookingType } from "../../../@types/bookingTypes";
+import { createRandomBooking } from "../../../seed/bookingsSeeder";
+import { getMongoDb } from "../../mongo-connection";
+import { roomModel } from "../roomModel";
+import { bookingModel } from "../bookingModel";
 
 const bookingArr: BookingType[] = [];
-
-const bookingSchema = new mongoose.Schema<BookingType>({
-  id: {
-    type: String,
-    unique: true,
-  },
-  fullName: {
-    type: String,
-  },
-  bookingDate: {
-    type: String,
-  },
-  checkIn: {
-    type: String,
-  },
-  checkOut: {
-    type: String,
-  },
-  specialRquest: {
-    type: String,
-  },
-  roomType: {
-    type: String,
-  },
-  roomId: {
-    type: String,
-  },
-  status: {
-    type: String,
-  },
-});
-export const bookingModel = mongoose.model("Bookings", bookingSchema);
 
 export async function runBookings() {
   let connection;
@@ -48,8 +16,6 @@ export async function runBookings() {
     for (let i = 0; i < 20; i++) {
       if (rooms[i].id && rooms[i].bedType) {
         const newBooking = createRandomBooking();
-        // console.log(rooms[i].id);
-        // console.log(newBooking.roomId);
         const randomNumber = Math.floor(Math.random() * rooms.length);
         newBooking.roomId = rooms[randomNumber].id;
         newBooking.roomType = rooms[randomNumber].bedType;

@@ -8,10 +8,10 @@ import {
   updateComment,
 } from "../controllers/commentsController";
 
-router.get("/getAllComments", getAllComments);
-router.get("/getOneComment/:id", getOneComment);
-router.post("/createComment", createComment);
-router.delete("/deleteComment/:id", deleteComment);
-router.put("/updateComment/:id", updateComment);
+router.get("/", getAllComments);
+router.get("/:id", getOneComment);
+router.post("/", createComment);
+router.delete("/:id", deleteComment);
+router.put("/:id", updateComment);
 
 export default router;

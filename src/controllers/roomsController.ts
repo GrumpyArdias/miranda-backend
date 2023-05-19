@@ -71,9 +71,6 @@ export const deleteRoom = async (
 ) => {
   try {
     const deleteRoom = await deleteRoomService(req.params.id);
-    // if (deleteRoom.length === 0) {
-    //   res.send({ status: "Error", data: "Room not found" });
-    // }
     console.log(deleteRoom);
     return res.send({ status: "Success", data: deleteRoom });
   } catch (error) {

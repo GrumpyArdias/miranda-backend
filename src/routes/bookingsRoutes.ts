@@ -10,10 +10,10 @@ import {
   updateBooking,
 } from "../controllers/bookingsController";
 
-router.get("/getAllBookings", getAllBookings);
-router.get("/getOneBooking/:id", getOneBooking);
-router.delete("/deleteBooking/:id", deleteBooking);
-router.post("/createBooking", createBooking);
-router.put("/updateBooking/:id", updateBooking);
+router.get("/", getAllBookings);
+router.get("/:id", getOneBooking);
+router.delete("/:id", deleteBooking);
+router.post("/", createBooking);
+router.put("/:id", updateBooking);
 
 export default router;
