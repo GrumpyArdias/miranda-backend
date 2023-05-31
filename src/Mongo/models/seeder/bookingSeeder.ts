@@ -1,5 +1,5 @@
 import { BookingType } from "../../../@types/bookingTypes";
-import { createRandomBooking } from "../../../seed/bookingsSeeder";
+import { createRandomBooking } from "../../../SQL/seed/bookingsSeeder";
 import { getMongoDb } from "../../mongo-connection";
 import { roomModel } from "../roomModel";
 import { bookingModel } from "../bookingModel";

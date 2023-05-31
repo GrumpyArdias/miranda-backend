@@ -1,4 +1,4 @@
-import { createRandomComment } from "../../../seed/commentsSeeder";
+import { createRandomComment } from "../../../SQL/seed/commentsSeeder";
 import { getMongoDb } from "../../mongo-connection";
 import { CommentsType } from "../../../@types/commentTypes";
 import { commentModel } from "../commentModel";

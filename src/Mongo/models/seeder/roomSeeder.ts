@@ -1,5 +1,5 @@
 import { RoomType } from "../../../@types/roomTypes";
-import { createRandomRoom } from "../../../seed/roomsSeeder";
+import { createRandomRoom } from "../../../SQL/seed/roomsSeeder";
 import { getMongoDb } from "../../mongo-connection";
 import { roomModel } from "../roomModel";
 

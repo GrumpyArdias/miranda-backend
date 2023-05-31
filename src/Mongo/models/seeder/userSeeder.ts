@@ -1,5 +1,5 @@
 import { UserType } from "../../../@types/userTypes";
-import { createRandomUser } from "../../../seed/usersSeeder";
+import { createRandomUser } from "../../../SQL/seed/usersSeeder";
 import { getMongoDb } from "../../mongo-connection";
 import { userModel } from "../userModel";
 

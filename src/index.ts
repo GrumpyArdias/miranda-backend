@@ -10,11 +10,12 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import session from "express-session";
 import cookiparser from "cookie-parser";
-import { mongoConnect } from "./Mongo/mongo-connection";
+// import { mongoConnect } from "./Mongo/mongo-connection";
 import { middleWare } from "./middleware/middelware";
-mongoConnect();
+import { runBookings } from "./SQL/seed/bookingsSeeder";
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
+runBookings();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -7,7 +7,7 @@ export const LoginController = async (
 ) => {
   try {
     const user = req.user;
-    const token = JWT.sign({ user }, SECRETS.jwt, { expiresIn: "1h" });
+    const token = JWT.sign({ user }, SECRETS.jwt);
     return res.send({ status: "Success", data: token });
   } catch (error) {
     return res.send({ status: "Error", data: error });
