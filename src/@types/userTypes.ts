@@ -1,9 +1,9 @@
 export interface UserType {
-  id: string;
+  id?: string;
   fullName: string;
   email: string;
   joinDate: string;
-  description: string;
-  status: boolean;
+  jobTitle: string;
+  estatus: boolean;
   number: string;
 }

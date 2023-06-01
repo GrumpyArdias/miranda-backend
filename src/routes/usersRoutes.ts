@@ -8,10 +8,10 @@ import {
   updateUser,
 } from "../controllers/usersController";
 
-router.get("/getAllUsers", getAllUsers);
-router.get("/getOneUser/:id", getOneUser);
-router.post("/createUser", createUser);
-router.delete("/deleteUser/:id", deleteUser);
-router.put("/updateUser/:id", updateUser);
+router.get("/", getAllUsers);
+router.get("/:id", getOneUser);
+router.post("/", createUser);
+router.delete("/:id", deleteUser);
+router.put("/:id", updateUser);
 
 export default router;

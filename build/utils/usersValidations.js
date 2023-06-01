@@ -5,7 +5,7 @@ const ValidateUserType = (data) => {
     if (typeof data.fullName !== "string" ||
         typeof data.email !== "string" ||
         typeof data.joinDate !== "string" ||
-        typeof data.description !== "string" ||
+        typeof data.jobTitle !== "string" ||
         typeof data.status !== "boolean" ||
         typeof data.number !== "string") {
         return false;
@@ -18,7 +18,7 @@ const validateUserParams = (params) => {
         "fullName",
         "email",
         "joinDate",
-        "description",
+        "jobTitle",
         "status",
         "number",
     ];

@@ -1,3 +1,4 @@
+import { commentsCreateSchema } from "./../utils/joi/commentsJoiValidations";
 import express from "express";
 import { v4 as uuid } from "uuid";
 import {
@@ -8,10 +9,7 @@ import {
   updateComment as updateCommentService,
 } from "../services/commentsService";
 
-import {
-  ValidateCommentsType,
-  validateCommentsParams,
-} from "../utils/commentsValidations";
+import { validateCommentsParams } from "../utils/commentsValidations";
 
 export const getAllComments = async (
   _req: express.Request,
@@ -47,35 +45,12 @@ export const createComment = async (
   try {
     const newComment = req.body;
 
-    const requiredParams = [
-      "date",
-      "fullName",
-      "email",
-      "phone",
-      "subject",
-      "comment",
-      "action",
-    ];
-    const missingParams = requiredParams.filter((param) => {
-      return !req.body.hasOwnProperty(param);
-    });
-
-    if (missingParams.length > 0) {
-      return res.send({
-        status: "Error",
-        message: `Missing required parameters: ${missingParams.join(", ")}`,
-      });
-    }
-
-    if (!ValidateCommentsType(req.body)) {
-      return res.send({
-        status: "Error",
-        message: "Invalid Comment parameter types",
-      });
-    }
+    const validateComment = await commentsCreateSchema.validateAsync(
+      newComment
+    );
 
     const user = {
-      ...newComment,
+      ...validateComment,
       id: uuid(),
       date: newComment.date,
       fullName: newComment.fullName,
@@ -98,11 +73,8 @@ export const deleteComment = async (
   res: express.Response
 ) => {
   try {
-    const deleteUser = await deleteCommentService(req.params.id);
     const comment = await deleteCommentService(req.params.id);
-    if (deleteUser.length === 0) {
-      return res.send({ status: "Error", data: "Comment not found" });
-    }
+
     return res.send({ status: "Success", data: comment });
   } catch (error) {
     return res.send({ status: "Error", data: error });
@@ -121,7 +93,6 @@ export const updateComment = async (
     }
     return res.send({ status: "Success", data: updatedComment });
   } catch (error) {
-    console.log(error);
     return res.send({ status: "Comment not found", data: error });
   }
 };

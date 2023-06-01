@@ -1,3 +1,4 @@
+import { bookingCreateSchema } from "./../utils/joi/bookingsJoiValidations";
 import express from "express";
 import {
   getAllBookings as getAllBookingsService,
@@ -8,10 +9,7 @@ import {
 } from "../services/bookingsService";
 
 import { v4 as uuid } from "uuid";
-import {
-  validateBookingParams,
-  ValidateBookingType,
-} from "../utils/bookingsValidations";
+import { validateBookingParams } from "../utils/bookingsValidations";
 
 export const getAllBookings = async (
   _req: express.Request,
@@ -47,9 +45,6 @@ export const deleteBooking = async (
 ) => {
   try {
     const deleteBooking = await deleteBookingService(req.params.id);
-    if (deleteBooking.length === 0) {
-      throw new Error("Booking not found");
-    }
     return res.send({ status: "Success", data: deleteBooking });
   } catch (error) {
     return res.send({ status: "Error", data: error });
@@ -80,37 +75,14 @@ export const createBooking = async (
   res: express.Response
 ) => {
   try {
-    console.log("this is the create booking try");
     const newBooking = req.body;
-    const requiredParams = [
-      "fullName",
-      "date",
-      "checkIn",
-      "checkOut",
-      "specialRquest",
-      "roomType",
-      "roomId",
-      "status",
-    ];
-    const missingParams = requiredParams.filter(
-      (param) => !req.body.hasOwnProperty(param)
+
+    const validatedBooking = await bookingCreateSchema.validateAsync(
+      newBooking
     );
-    if (missingParams.length > 0) {
-      return res.send({
-        status: "Error",
-        message: `Missing required parameters: ${missingParams.join(", ")}`,
-      });
-    }
 
-    if (!ValidateBookingType(req.body)) {
-      return res.send({
-        status: "Error",
-        message: "Invalid Booking parameter types",
-      });
-    }
-
-    const room = {
-      ...newBooking,
+    const booking = {
+      ...validatedBooking,
       id: uuid(),
       bedType: newBooking.bedType,
       status: newBooking.status,
@@ -120,8 +92,8 @@ export const createBooking = async (
       doorNumber: newBooking.doorNumber,
       floorNumber: newBooking.floorNumber,
     };
-    const cretedRoom = await createBookingService(room);
-    return res.send({ status: "Success", data: cretedRoom });
+    const createdBooking = await createBookingService(booking);
+    return res.send({ status: "Success", data: createdBooking });
   } catch (error) {
     return res.send({ status: "Error", data: error });
   }

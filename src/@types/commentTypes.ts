@@ -1,6 +1,6 @@
 export interface CommentsType {
   id: string;
-  date: string;
+  commentDate: string;
   fullName: string;
   email: string;
   phone: string;

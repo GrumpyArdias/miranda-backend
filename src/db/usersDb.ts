@@ -3,8 +3,6 @@ import { UserType } from "../@types/userTypes";
 import fs from "fs";
 
 export const getAllUsers = () => {
-  console.log("this is the typeof users");
-  console.log(typeof Users);
   return Users;
 };
 

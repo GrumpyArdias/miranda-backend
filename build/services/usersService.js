@@ -11,8 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.deleteUser = exports.createUser = exports.getOneUser = exports.getAllUsers = void 0;
 const usersDb_1 = require("../db/usersDb");
+const usersSql_1 = require("../SQL/usersSql");
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    const getAllUsers = yield (0, usersDb_1.getAllUsers)();
+    //const getAllUsers = await getAllUsersSQL();
+    const getAllUsers = yield (0, usersSql_1.getAllUsers)();
     return getAllUsers;
 });
 exports.getAllUsers = getAllUsers;
