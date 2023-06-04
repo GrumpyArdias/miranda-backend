@@ -30,7 +30,7 @@ To set up Hotel Miranda Backend API locally, follow these steps:
    
 1. Clone the repository from GitHub:
 
- ```bash git clone  https://github.com/GrumpyArdias/miranda-backend ```
+ ``` git clone  https://github.com/GrumpyArdias/miranda-backend ```
 
 2. Install the project dependencies:
 
