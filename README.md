@@ -30,20 +30,20 @@ To set up Hotel Miranda Backend API locally, follow these steps:
    
 1. Clone the repository from GitHub:
 
-  git clone  https://github.com/GrumpyArdias/miranda-backend
+ ```bash git clone  https://github.com/GrumpyArdias/miranda-backend ```
 
 2. Install the project dependencies:
 
-    cd hotel-miranda-backend
-    npm install
+    ```bash cd hotel-miranda-backend
+    npm install ```
 
 3. Populate the database using the seeder
 
 4. Run the API:
 
-    npm run dev
+    ```bashnpm run dev ```
 
-    The API should now be running locally on http://localhost:3000. You can send requests to the endpoints using tools like cURL or Postman.
+The API should now be running locally on http://localhost:3000. You can send requests to the endpoints using tools like cURL or Postman.
 
 ## License
 
