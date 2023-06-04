@@ -22,6 +22,7 @@ export const validateUserParams = (params: any) => {
     "jobTitle",
     "status",
     "number",
+    "password",
   ];
   const providedParams = Object.keys(params);
   const invalidParams = providedParams.filter(

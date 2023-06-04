@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { UserType } from "../../@types/userTypes";
 import { getSQLDb } from "../../utils/sql-conection";
+import bcrypt from "bcrypt";
 
 export function createRandomUser(): UserType {
   return {
@@ -11,6 +12,7 @@ export function createRandomUser(): UserType {
     jobTitle: faker.name.jobTitle(),
     estatus: faker.datatype.boolean(),
     number: faker.phone.number("+34-###-###-###"),
+    password: bcrypt.hashSync(faker.internet.password(), 10),
   };
 }
 

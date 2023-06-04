@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema<UserType>({
   number: {
     type: String,
   },
+  password: {
+    type: String,
+  },
 });
 
 export const userModel = mongoose.model("Users", userSchema);

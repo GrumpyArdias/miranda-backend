@@ -19,6 +19,16 @@ export async function getUser(id: string) {
   }
 }
 
+export async function getUserbyMail(email: string): Promise<UserType> {
+  try {
+    const getUser = await userModel.findOne<UserType>({ email: email });
+    if (getUser) return getUser;
+    else throw new Error("Error returning user");
+  } catch (err) {
+    throw new Error("Error returning user");
+  }
+}
+
 export async function createUser(user: UserType) {
   try {
     const createUser = await userModel.create(user);

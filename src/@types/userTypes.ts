@@ -6,4 +6,5 @@ export interface UserType {
   jobTitle: string;
   estatus: boolean;
   number: string;
+  password: string;
 }
