@@ -13,7 +13,7 @@ export function getSQLDb() {
   return mysql2.createConnection(config);
 }
 
-const conectionStatus = async () => {
+export const conectionStatus = async () => {
   try {
     const connection = getSQLDb();
     console.log("You have been connected to the SQL database");
@@ -23,5 +23,3 @@ const conectionStatus = async () => {
     return false;
   }
 };
-
-conectionStatus();

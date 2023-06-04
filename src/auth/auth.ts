@@ -2,7 +2,9 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { SECRETS } from "../utils/jwtUtils";
 import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
-import { Userlogin } from "../db/loginDb";
+import { getUserbyMail } from "../Mongo/userMongo";
+import { UserType } from "../@types/userTypes";
+import bcrypt from "bcrypt";
 
 passport.use(
   "login",
@@ -13,13 +15,14 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        if (Userlogin.email !== email) {
-          return done(null, false, { message: "User not found" });
+        const user: UserType = await getUserbyMail(email);
+        const match = bcrypt.compareSync(password, user.password);
+
+        if (match) {
+          return done(null, user, { message: "Logged in Successfully" });
+        } else {
+          return done(null, false, { message: "Bad credentials" });
         }
-        if (Userlogin.password !== password) {
-          return done(null, false, { message: "Wrong Password" });
-        }
-        return done(null, Userlogin, { message: "Logged in Successfully" });
       } catch (error) {
         return done(error);
       }

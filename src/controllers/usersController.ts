@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import express from "express";
 import { v4 as uuid } from "uuid";
 import {
@@ -7,7 +8,6 @@ import {
   deleteUser as deleteUserService,
   updateUser as updateUserService,
 } from "../services/usersService";
-
 import { validateUserParams } from "../utils/usersValidations";
 import { userCreateSchema } from "../utils/joi/userJoiValidations";
 
@@ -55,9 +55,11 @@ export const createUser = async (
       description: newUser.description,
       status: newUser.status,
       number: newUser.number,
+      password: bcrypt.hashSync(newUser.password, 10),
     };
 
     const createdUser = await createUserService(user);
+
     return res.send({ status: "Success", data: createdUser });
   } catch (error) {
     return res.send({ status: "Error", data: error });

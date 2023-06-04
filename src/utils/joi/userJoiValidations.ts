@@ -15,4 +15,5 @@ export const userCreateSchema = Joi.object<UserType>({
     .min(8)
     .max(11)
     .pattern(new RegExp("^[0-9]+$")),
+  password: Joi.string().required(),
 });

@@ -10,12 +10,18 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import session from "express-session";
 import cookiparser from "cookie-parser";
-// import { mongoConnect } from "./Mongo/mongo-connection";
+import { mongoConnect } from "./Mongo/mongo-connection";
 import { middleWare } from "./middleware/middelware";
-import { runBookings } from "./SQL/seed/bookingsSeeder";
+// import { runUsers } from "./Mongo/models/userModel";
+// import { createMe } from "./Mongo/models/seeder/userSeeder";
+// Seeders
+//mongo
+
 const app = express();
 const PORT = 3001;
-runBookings();
+mongoConnect();
+// runBookings();
+// createMe()
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));

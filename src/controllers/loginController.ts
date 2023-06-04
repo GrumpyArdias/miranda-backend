@@ -7,9 +7,10 @@ export const LoginController = async (
 ) => {
   try {
     const user = req.user;
-    const token = JWT.sign({ user }, SECRETS.jwt);
-    return res.send({ status: "Success", data: token });
+    const expiresIn = "365d";
+    const token = JWT.sign({ user }, SECRETS.jwt, { expiresIn });
+    return res.json({ status: "Success", data: token });
   } catch (error) {
-    return res.send({ status: "Error", data: error });
+    return res.json({ status: "Error", data: error });
   }
 };
