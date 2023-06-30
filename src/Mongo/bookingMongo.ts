@@ -12,16 +12,16 @@ export async function getAllBookings() {
 
 export async function getBooking(id: string) {
   try {
-    const getBooking = await bookingModel.findById(id);
-    return getBooking;
+    const getBooking = await bookingModel.find({ id: id });
+    return getBooking[0];
   } catch (err) {
     return err;
   }
 }
 
-export async function createBooking(user: BookingType) {
+export async function createBooking(booking: BookingType) {
   try {
-    const createBooking = await bookingModel.create(user);
+    const createBooking = await bookingModel.create(booking);
     return createBooking;
   } catch (err) {
     return err;

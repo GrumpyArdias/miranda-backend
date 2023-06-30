@@ -42,8 +42,10 @@ export const createUser = async (
   req: express.Request,
   res: express.Response
 ) => {
+  console.log("This is the new user", req.body);
   try {
     const newUser = req.body;
+    console.log("This is the new user", newUser);
     const validateUser = await userCreateSchema.validateAsync(newUser);
 
     const user = {
@@ -53,7 +55,7 @@ export const createUser = async (
       email: newUser.email,
       joinDate: newUser.joinDate,
       description: newUser.description,
-      status: newUser.status,
+      estatus: newUser.estatus,
       number: newUser.number,
       password: bcrypt.hashSync(newUser.password, 10),
     };
@@ -62,6 +64,7 @@ export const createUser = async (
 
     return res.send({ status: "Success", data: createdUser });
   } catch (error) {
+    console.log("estamos entrando al catch", error);
     return res.send({ status: "Error", data: error });
   }
 };

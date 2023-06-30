@@ -12,8 +12,8 @@ export async function getAllUsers() {
 
 export async function getUser(id: string) {
   try {
-    const getUser = await userModel.findById(id);
-    return getUser;
+    const getUser = await userModel.find({ id });
+    return getUser[0];
   } catch (err) {
     return err;
   }

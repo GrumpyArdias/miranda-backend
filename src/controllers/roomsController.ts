@@ -32,6 +32,7 @@ export const getOneRoom = async (
     if (!room) {
       return res.send({ status: "Error", data: "Room not found" });
     }
+    console.log(room);
     return res.send({ status: "Success", data: room });
   } catch (error) {
     return res.send({ status: "Error", data: error });
