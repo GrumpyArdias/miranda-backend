@@ -25,7 +25,7 @@ Hotel Miranda Backend API is developed using the following technologies:
 
 Installation and Setup
 
-To set up Hotel Miranda Backend API locally, follow these steps:
+To set up Hotel Miranda Backend API locally, follow these steps:    
 
    
 1. Clone the repository from GitHub:
@@ -41,7 +41,7 @@ To set up Hotel Miranda Backend API locally, follow these steps:
 
 4. Run the API:
 
-    ```bashnpm run dev ```
+    ```bash npm run dev ```
 
 The API should now be running locally on http://localhost:3000. You can send requests to the endpoints using tools like cURL or Postman.
 

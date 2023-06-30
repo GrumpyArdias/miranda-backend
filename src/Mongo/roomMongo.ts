@@ -13,8 +13,8 @@ export async function getAllRooms() {
 //check if findByid works if not findOne
 export async function getRoom(id: string) {
   try {
-    const getRoom = await roomModel.findById(id);
-    return getRoom;
+    const getRoom = await roomModel.find({ id: id });
+    return getRoom[0];
   } catch (err) {
     return err;
   }

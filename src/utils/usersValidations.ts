@@ -6,11 +6,12 @@ export const ValidateUserType = (data: any): data is UserType => {
     typeof data.email !== "string" ||
     typeof data.joinDate !== "string" ||
     typeof data.jobTitle !== "string" ||
-    typeof data.status !== "boolean" ||
+    typeof data.estatus !== "boolean" ||
     typeof data.number !== "string"
   ) {
     return false;
   }
+
   return true;
 };
 

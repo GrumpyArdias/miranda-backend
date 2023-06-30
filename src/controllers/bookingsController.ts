@@ -84,15 +84,9 @@ export const createBooking = async (
     const booking = {
       ...validatedBooking,
       id: uuid(),
-      bedType: newBooking.bedType,
-      status: newBooking.status,
-      facilites: newBooking.facilites,
-      price: newBooking.price,
-      discount: newBooking.discount,
-      doorNumber: newBooking.doorNumber,
-      floorNumber: newBooking.floorNumber,
     };
     const createdBooking = await createBookingService(booking);
+    console.log("this is the createdBooking", createdBooking);
     return res.send({ status: "Success", data: createdBooking });
   } catch (error) {
     return res.send({ status: "Error", data: error });
