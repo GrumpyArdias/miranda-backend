@@ -2,6 +2,7 @@ import Joi from "joi";
 import { RoomType } from "../../@types/roomTypes";
 
 export const roomCreateSchema = Joi.object<RoomType>({
+  id: Joi.string(),
   bedType: Joi.string().required().min(4).max(15),
   estatus: Joi.boolean().required(),
   facilities: Joi.array().items(Joi.string()).required(),
