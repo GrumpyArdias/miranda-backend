@@ -18,7 +18,7 @@ export const ValidateRoomType = (data: any): data is RoomType => {
 export const validateRoomParams = (params: any) => {
   const validParams = [
     "bedType",
-    "status",
+    "estatus",
     "facilites",
     "price",
     "discount",

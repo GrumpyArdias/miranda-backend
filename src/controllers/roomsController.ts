@@ -43,24 +43,21 @@ export const createRoom = async (
   req: express.Request,
   res: express.Response
 ) => {
+  console.log(req.body);
   try {
     const newRoom = req.body;
     const validateRoom = await roomCreateSchema.validateAsync(newRoom);
-
+    console.log("this is the validateRoom", validateRoom);
     const room = {
       ...validateRoom,
       id: uuid(),
-      bedType: newRoom.bedType,
-      status: newRoom.status,
-      facilites: newRoom.facilites,
-      price: newRoom.price,
-      discount: newRoom.discount,
-      doorNumber: newRoom.doorNumber,
-      floorNumber: newRoom.floorNumber,
     };
+    console.log("This is the room", room);
     const cretedRoom = await createRoomService(room);
+    console.log("this is the created Room", cretedRoom);
     return res.send({ status: "Success", data: cretedRoom });
   } catch (error) {
+    console.log(error);
     return res.send({ status: "Error", data: error });
   }
 };
