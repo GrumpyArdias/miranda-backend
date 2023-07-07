@@ -9,15 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRoom = exports.deleteRoom = exports.createRoom = exports.getRoom = exports.getAllRooms = void 0;
+exports.updateComment = exports.deleteComment = exports.createComment = exports.getComment = exports.getAllComments = void 0;
 const sql_conection_1 = require("../utils/sql-conection");
-function getAllRooms() {
+function getAllComments() {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const getAllRooms = yield connection.execute("SELECT * FROM rooms");
-            return getAllRooms;
+            const getAllComments = yield connection.query("SELECT * FROM comments");
+            return getAllComments;
         }
         catch (err) {
             return err;
@@ -29,14 +29,14 @@ function getAllRooms() {
         }
     });
 }
-exports.getAllRooms = getAllRooms;
-function getRoom(id) {
+exports.getAllComments = getAllComments;
+function getComment(id) {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const getRoom = yield connection.execute("SELECT * FROM rooms WHERE id = ?", [id]);
-            return getRoom;
+            const getComment = yield connection.execute("SELECT * FROM comments WHERE id = ?", [id]);
+            return getComment;
         }
         catch (err) {
             return err;
@@ -48,16 +48,14 @@ function getRoom(id) {
         }
     });
 }
-exports.getRoom = getRoom;
-function createRoom(room) {
+exports.getComment = getComment;
+function createComment(comment) {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const createRoom = yield connection.execute("INSERT INTO rooms SET ?", [
-                room,
-            ]);
-            return createRoom;
+            const createComment = yield connection.execute("INSERT INTO comments SET ?", [comment]);
+            return createComment;
         }
         catch (err) {
             return err;
@@ -69,14 +67,14 @@ function createRoom(room) {
         }
     });
 }
-exports.createRoom = createRoom;
-function deleteRoom(id) {
+exports.createComment = createComment;
+function deleteComment(id) {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const deleteRoom = yield connection.execute("DELETE FROM rooms WHERE id = ?", [id]);
-            return deleteRoom;
+            const deleteComment = yield connection.execute("DELETE FROM comments WHERE id = ?", [id]);
+            return deleteComment;
         }
         catch (err) {
             return err;
@@ -88,14 +86,14 @@ function deleteRoom(id) {
         }
     });
 }
-exports.deleteRoom = deleteRoom;
-function updateRoom(roomId, updates) {
+exports.deleteComment = deleteComment;
+function updateComment(commentId, updates) {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const updateRoom = yield connection.execute("UPDATE rooms SET ? WHERE id = ?", [updates, roomId]);
-            return updateRoom;
+            const updateComment = yield connection.execute("UPDATE comments SET ? WHERE id = ?", [updates, commentId]);
+            return updateComment;
         }
         catch (err) {
             return err;
@@ -107,4 +105,4 @@ function updateRoom(roomId, updates) {
         }
     });
 }
-exports.updateRoom = updateRoom;
+exports.updateComment = updateComment;

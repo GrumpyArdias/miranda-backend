@@ -12,9 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../index"));
-const index_2 = require("../index");
+dotenv_1.default.config();
+const server = index_1.default.listen(process.env.PORT, () => {
+    console.log(`${process.env.PORT}`);
+});
 let authToken;
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield (0, supertest_1.default)(index_1.default)
@@ -23,7 +27,7 @@ beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     authToken = response.body.token;
 }));
 afterAll((done) => {
-    index_2.server.close(done);
+    server.close(done);
 });
 describe("GET /getAllUsers", () => {
     test("should return a non-empty array of users", () => __awaiter(void 0, void 0, void 0, function* () {

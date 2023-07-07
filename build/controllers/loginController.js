@@ -15,15 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginController = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const jwtUtils_1 = require("../utils/jwtUtils");
+const usersValidations_1 = require("../utils/usersValidations");
 const LoginController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("this is the try in the loginController");
         const user = req.user;
-        const token = jsonwebtoken_1.default.sign({ user }, jwtUtils_1.SECRETS.jwt, { expiresIn: "1h" });
-        res.status(200).json({ token });
+        console.log(user);
+        console.log((0, usersValidations_1.ValidateUserType)(user));
+        if ((0, usersValidations_1.ValidateUserType)(user)) {
+            const expiresIn = "365d";
+            const token = jsonwebtoken_1.default.sign({ user }, jwtUtils_1.SECRETS.jwt, { expiresIn });
+            return res.json({ status: "Success", data: { token, userId: user.id } });
+        }
+        else {
+            throw new Error("Error getting the userID in the loginController");
+        }
     }
     catch (error) {
-        console.log(error);
+        return res.json({ status: "Error", data: error });
     }
 });
 exports.LoginController = LoginController;

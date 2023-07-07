@@ -11,19 +11,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRoom = exports.getOneRoom = exports.getAllRooms = void 0;
-const rooms_json_1 = __importDefault(require("../data/rooms.json"));
-const getAllRooms = () => {
-    return rooms_json_1.default;
-};
-exports.getAllRooms = getAllRooms;
-const getOneRoom = (roomId) => {
-    return rooms_json_1.default.find((room) => room.id === roomId);
-};
-exports.getOneRoom = getOneRoom;
-const createRoom = (newRoom) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield rooms_json_1.default.push(newRoom);
-    return result;
+exports.mongoConnect = exports.getMongoDb = void 0;
+const dotenv_1 = __importDefault(require("dotenv"));
+const mongoose_1 = __importDefault(require("mongoose"));
+dotenv_1.default.config();
+const uri = (_a = process.env.MONGO_URI) !== null && _a !== void 0 ? _a : "";
+function getMongoDb() {
+    return mongoose_1.default.connect(uri);
+}
+exports.getMongoDb = getMongoDb;
+const mongoConnect = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = yield getMongoDb();
+        console.log("You have been connected to the Mongo DB");
+        return connection;
+    }
+    catch (err) {
+        throw new Error("Unable to connect to Mongo Db");
+    }
 });
-exports.createRoom = createRoom;
+exports.mongoConnect = mongoConnect;

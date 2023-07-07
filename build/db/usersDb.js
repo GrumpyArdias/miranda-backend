@@ -16,8 +16,6 @@ exports.updateUser = exports.deleteUser = exports.createUser = exports.getOneUse
 const users_json_1 = __importDefault(require("../data/users.json"));
 const fs_1 = __importDefault(require("fs"));
 const getAllUsers = () => {
-    console.log("this is the typeof users");
-    console.log(typeof users_json_1.default);
     return users_json_1.default;
 };
 exports.getAllUsers = getAllUsers;

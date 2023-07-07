@@ -38,14 +38,12 @@ exports.deleteBooking = deleteBooking;
 const createBooking = (newBooking) => __awaiter(void 0, void 0, void 0, function* () {
     const currentBookings = JSON.parse(fs_1.default.readFileSync("src/data/bookings.json", "utf-8"));
     const updatedBookings = [...currentBookings, newBooking];
-    console.log("this is the new booking  ", newBooking);
     fs_1.default.writeFileSync("src/data/bookings.json", JSON.stringify(updatedBookings, null, 2));
     return newBooking;
 });
 exports.createBooking = createBooking;
 const updateBooking = (bookingId, updates) => __awaiter(void 0, void 0, void 0, function* () {
     const sanatizedBookingId = bookingId.replace(/"/g, "");
-    console.log("this is the updatebooking ");
     const updatedBookings = bookings_json_1.default.map((booking) => {
         if (booking.id === sanatizedBookingId) {
             return Object.assign(Object.assign({}, booking), updates);

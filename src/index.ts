@@ -12,13 +12,13 @@ import session from "express-session";
 import cookiparser from "cookie-parser";
 import { mongoConnect } from "./Mongo/mongo-connection";
 import { middleWare } from "./middleware/middelware";
+import awsServerlessExpress from "aws-serverless-express";
 // import { runUsers } from "./Mongo/models/userModel";
 // import { createMe } from "./Mongo/models/seeder/userSeeder";
 // Seeders
 //mongo
 
 const app = express();
-const PORT = 3001;
 mongoConnect();
 // runBookings();
 // createMe()
@@ -49,8 +49,12 @@ app.use(
 );
 
 app.use(middleWare);
-export const server = app.listen(PORT, () => {
-  console.log(`Api listening on port ${PORT}`);
-});
+// export const server = app.listen(PORT, () => {
+//   console.log(`Api listening on port ${PORT}`);
+// });
+const server = awsServerlessExpress.createServer(app);
 
+exports.handler = (event: any, context: any) => {
+  awsServerlessExpress.proxy(server, event, context);
+};
 export default app;

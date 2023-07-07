@@ -8,119 +8,103 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.deleteUser = exports.createUser = exports.getUser = exports.getAllUsers = void 0;
-const mysql2_1 = __importDefault(require("mysql2"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const connection = mysql2_1.default.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-});
-const conectionStatus = () => {
-    try {
-        connection.connect();
-        console.log("You have been connected to the SQL database");
-        return true;
-    }
-    catch (err) {
-        console.log("failed to connect to the SQL database", err);
-        return false;
-    }
-};
-conectionStatus();
+const sql_conection_1 = require("../utils/sql-conection");
 function getAllUsers() {
     return __awaiter(this, void 0, void 0, function* () {
+        let connection;
         try {
-            const getAllUsers = yield connection.query("SELECT * FROM users");
+            connection = yield (0, sql_conection_1.getSQLDb)();
+            const getAllUsers = yield connection.execute("SELECT * FROM users");
             return getAllUsers;
         }
         catch (err) {
-            console.log(err);
             return err;
+        }
+        finally {
+            if (connection) {
+                yield connection.end();
+            }
         }
     });
 }
 exports.getAllUsers = getAllUsers;
-function getUser({ id }) {
-    try {
-        return new Promise((resolve, reject) => {
-            connection.query(`SELECT * FROM users WHERE id=${id}`, (err, result) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
-                }
-            });
-        });
-    }
-    catch (err) {
-        console.log(err);
-        return err;
-    }
+function getUser(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let connection;
+        try {
+            connection = yield (0, sql_conection_1.getSQLDb)();
+            const getUser = yield connection.execute("SELECT * FROM users WHERE id = ?", [id]);
+            return getUser;
+        }
+        catch (err) {
+            return err;
+        }
+        finally {
+            if (connection) {
+                yield connection.end();
+            }
+        }
+    });
 }
 exports.getUser = getUser;
 function createUser(user) {
-    try {
-        return new Promise((resolve, reject) => {
-            connection.query("INSERT INTO users SET ?", user, (err, result) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
-                }
-            });
-        });
-    }
-    catch (err) {
-        console.log(err);
-        return err;
-    }
+    return __awaiter(this, void 0, void 0, function* () {
+        let connection;
+        try {
+            connection = yield (0, sql_conection_1.getSQLDb)();
+            const createUser = yield connection.execute("INSERT INTO users SET ?", [
+                user,
+            ]);
+            return createUser;
+        }
+        catch (err) {
+            return err;
+        }
+        finally {
+            if (connection) {
+                yield connection.end();
+            }
+        }
+    });
 }
 exports.createUser = createUser;
-function deleteUser({ id }) {
-    try {
-        return new Promise((resolve, reject) => {
-            connection.query(`DELETE FROM users WHERE id=${id}`, (err, result) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
-                }
-            });
-        });
-    }
-    catch (err) {
-        console.log(err);
-        return err;
-    }
+function deleteUser(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let connection;
+        try {
+            connection = yield (0, sql_conection_1.getSQLDb)();
+            const deleteUser = yield connection.execute("DELETE FROM users WHERE id = ?", [id]);
+            return deleteUser;
+        }
+        catch (err) {
+            return err;
+        }
+        finally {
+            if (connection) {
+                yield connection.end();
+            }
+        }
+    });
 }
 exports.deleteUser = deleteUser;
 function updateUser(userId, updates) {
-    try {
-        return new Promise((resolve, reject) => {
-            connection.query(`UPDATE users SET ? WHERE id=${userId}`, updates, (err, result) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
-                }
-            });
-        });
-    }
-    catch (err) {
-        console.log(err);
-        return err;
-    }
+    return __awaiter(this, void 0, void 0, function* () {
+        let connection;
+        try {
+            connection = yield (0, sql_conection_1.getSQLDb)();
+            const updateUser = yield connection.execute("UPDATE users SET ? WHERE id = ?", [updates, userId]);
+            return updateUser;
+        }
+        catch (err) {
+            return err;
+        }
+        finally {
+            if (connection) {
+                yield connection.end();
+            }
+        }
+    });
 }
 exports.updateUser = updateUser;
-connection.end();

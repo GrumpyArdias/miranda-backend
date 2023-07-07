@@ -6,7 +6,7 @@ const ValidateUserType = (data) => {
         typeof data.email !== "string" ||
         typeof data.joinDate !== "string" ||
         typeof data.jobTitle !== "string" ||
-        typeof data.status !== "boolean" ||
+        typeof data.estatus !== "boolean" ||
         typeof data.number !== "string") {
         return false;
     }
@@ -21,10 +21,10 @@ const validateUserParams = (params) => {
         "jobTitle",
         "status",
         "number",
+        "password",
     ];
     const providedParams = Object.keys(params);
     const invalidParams = providedParams.filter((param) => !validParams.includes(param));
-    console.log("this is the invalidParams", invalidParams);
     if (invalidParams.length > 0) {
         return `Invalid parameters provided: ${invalidParams.join(", ")}`;
     }

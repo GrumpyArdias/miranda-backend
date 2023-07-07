@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateRoom = exports.deleteRoom = exports.createRoom = exports.getOneRoom = exports.getAllRooms = void 0;
 const roomsService_1 = require("../services/roomsService");
 const uuid_1 = require("uuid");
+const roomsJoiValidations_1 = require("../utils/joi/roomsJoiValidations");
 const roomsValidations_1 = require("../utils/roomsValidations");
 const getAllRooms = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -29,6 +30,7 @@ const getOneRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (!room) {
             return res.send({ status: "Error", data: "Room not found" });
         }
+        console.log(room);
         return res.send({ status: "Success", data: room });
     }
     catch (error) {
@@ -37,35 +39,19 @@ const getOneRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.getOneRoom = getOneRoom;
 const createRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     try {
         const newRoom = req.body;
-        const requiredParams = [
-            "bedType",
-            "status",
-            "facilites",
-            "price",
-            "discount",
-            "doorNumber",
-            "floorNumber",
-        ];
-        const missingParams = requiredParams.filter((param) => !req.body.hasOwnProperty(param));
-        if (missingParams.length > 0) {
-            return res.send({
-                status: "Error",
-                message: `Missing required parameters: ${missingParams.join(", ")}`,
-            });
-        }
-        if (!(0, roomsValidations_1.ValidateRoomType)(req.body)) {
-            return res.send({
-                status: "Error",
-                message: "Invalid room parameter types",
-            });
-        }
-        const room = Object.assign(Object.assign({}, newRoom), { id: (0, uuid_1.v4)(), bedType: newRoom.bedType, status: newRoom.status, facilites: newRoom.facilites, price: newRoom.price, discount: newRoom.discount, doorNumber: newRoom.doorNumber, floorNumber: newRoom.floorNumber });
+        const validateRoom = yield roomsJoiValidations_1.roomCreateSchema.validateAsync(newRoom);
+        console.log("this is the validateRoom", validateRoom);
+        const room = Object.assign(Object.assign({}, validateRoom), { id: (0, uuid_1.v4)() });
+        console.log("This is the room", room);
         const cretedRoom = yield (0, roomsService_1.createRoom)(room);
+        console.log("this is the created Room", cretedRoom);
         return res.send({ status: "Success", data: cretedRoom });
     }
     catch (error) {
+        console.log(error);
         return res.send({ status: "Error", data: error });
     }
 });
@@ -73,10 +59,6 @@ exports.createRoom = createRoom;
 const deleteRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deleteRoom = yield (0, roomsService_1.deleteRoom)(req.params.id);
-        if (deleteRoom.length === 0) {
-            res.send({ status: "Error", data: "Room not found" });
-        }
-        console.log(deleteRoom);
         return res.send({ status: "Success", data: deleteRoom });
     }
     catch (error) {
@@ -88,9 +70,6 @@ const updateRoom = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         (0, roomsValidations_1.validateRoomParams)(req.body);
         const updateRoom = yield (0, roomsService_1.updateRoom)(req.params.id, req.body);
-        if (updateRoom instanceof Error) {
-            return res.send({ status: "Error", message: updateRoom.message });
-        }
         return res.send({ status: "Success", data: updateRoom });
     }
     catch (error) {
