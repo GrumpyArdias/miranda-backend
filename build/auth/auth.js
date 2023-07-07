@@ -16,19 +16,21 @@ const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = require("passport-local");
 const jwtUtils_1 = require("../utils/jwtUtils");
 const passport_jwt_1 = require("passport-jwt");
-const loginDb_1 = require("../db/loginDb");
+const userMongo_1 = require("../Mongo/userMongo");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 passport_1.default.use("login", new passport_local_1.Strategy({
     usernameField: "email",
     passwordField: "password",
 }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (loginDb_1.Userlogin.email !== email) {
-            return done(null, false, { message: "User not found" });
+        const user = yield (0, userMongo_1.getUserbyMail)(email);
+        const match = bcrypt_1.default.compareSync(password, user.password);
+        if (match) {
+            return done(null, user, { message: "Logged in Successfully" });
         }
-        if (loginDb_1.Userlogin.password !== password) {
-            return done(null, false, { message: "Wrong Password" });
+        else {
+            return done(null, false, { message: "Bad credentials" });
         }
-        return done(null, loginDb_1.Userlogin, { message: "Logged in Successfully" });
     }
     catch (error) {
         return done(error);

@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createBooking = exports.updateBooking = exports.deleteBooking = exports.getOneBooking = exports.getAllBookings = void 0;
+const bookingsJoiValidations_1 = require("./../utils/joi/bookingsJoiValidations");
 const bookingsService_1 = require("../services/bookingsService");
 const uuid_1 = require("uuid");
 const bookingsValidations_1 = require("../utils/bookingsValidations");
@@ -39,9 +40,6 @@ exports.getOneBooking = getOneBooking;
 const deleteBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deleteBooking = yield (0, bookingsService_1.deleteBooking)(req.params.id);
-        if (deleteBooking.length === 0) {
-            throw new Error("Booking not found");
-        }
         return res.send({ status: "Success", data: deleteBooking });
     }
     catch (error) {
@@ -65,34 +63,12 @@ const updateBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.updateBooking = updateBooking;
 const createBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("this is the create booking try");
         const newBooking = req.body;
-        const requiredParams = [
-            "fullName",
-            "date",
-            "checkIn",
-            "checkOut",
-            "specialRquest",
-            "roomType",
-            "roomId",
-            "status",
-        ];
-        const missingParams = requiredParams.filter((param) => !req.body.hasOwnProperty(param));
-        if (missingParams.length > 0) {
-            return res.send({
-                status: "Error",
-                message: `Missing required parameters: ${missingParams.join(", ")}`,
-            });
-        }
-        if (!(0, bookingsValidations_1.ValidateBookingType)(req.body)) {
-            return res.send({
-                status: "Error",
-                message: "Invalid Booking parameter types",
-            });
-        }
-        const room = Object.assign(Object.assign({}, newBooking), { id: (0, uuid_1.v4)(), bedType: newBooking.bedType, status: newBooking.status, facilites: newBooking.facilites, price: newBooking.price, discount: newBooking.discount, doorNumber: newBooking.doorNumber, floorNumber: newBooking.floorNumber });
-        const cretedRoom = yield (0, bookingsService_1.createBooking)(room);
-        return res.send({ status: "Success", data: cretedRoom });
+        const validatedBooking = yield bookingsJoiValidations_1.bookingCreateSchema.validateAsync(newBooking);
+        const booking = Object.assign(Object.assign({}, validatedBooking), { id: (0, uuid_1.v4)() });
+        const createdBooking = yield (0, bookingsService_1.createBooking)(booking);
+        console.log("this is the createdBooking", createdBooking);
+        return res.send({ status: "Success", data: createdBooking });
     }
     catch (error) {
         return res.send({ status: "Error", data: error });

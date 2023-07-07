@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateComment = exports.deleteComment = exports.createComment = exports.getOneComment = exports.getAllComments = void 0;
+const commentsJoiValidations_1 = require("./../utils/joi/commentsJoiValidations");
 const uuid_1 = require("uuid");
 const commentsService_1 = require("../services/commentsService");
 const commentsValidations_1 = require("../utils/commentsValidations");
@@ -39,31 +40,8 @@ exports.getOneComment = getOneComment;
 const createComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newComment = req.body;
-        const requiredParams = [
-            "date",
-            "fullName",
-            "email",
-            "phone",
-            "subject",
-            "comment",
-            "action",
-        ];
-        const missingParams = requiredParams.filter((param) => {
-            return !req.body.hasOwnProperty(param);
-        });
-        if (missingParams.length > 0) {
-            return res.send({
-                status: "Error",
-                message: `Missing required parameters: ${missingParams.join(", ")}`,
-            });
-        }
-        if (!(0, commentsValidations_1.ValidateCommentsType)(req.body)) {
-            return res.send({
-                status: "Error",
-                message: "Invalid Comment parameter types",
-            });
-        }
-        const user = Object.assign(Object.assign({}, newComment), { id: (0, uuid_1.v4)(), date: newComment.date, fullName: newComment.fullName, email: newComment.email, phone: newComment.phone, subject: newComment.subject, comment: newComment.comment, action: newComment.action });
+        const validateComment = yield commentsJoiValidations_1.commentsCreateSchema.validateAsync(newComment);
+        const user = Object.assign(Object.assign({}, validateComment), { id: (0, uuid_1.v4)(), date: newComment.date, fullName: newComment.fullName, email: newComment.email, phone: newComment.phone, subject: newComment.subject, comment: newComment.comment, action: newComment.action });
         const createdUser = yield (0, commentsService_1.createComment)(user);
         return res.send({ status: "Success", data: createdUser });
     }
@@ -74,11 +52,7 @@ const createComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createComment = createComment;
 const deleteComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const deleteUser = yield (0, commentsService_1.deleteComment)(req.params.id);
         const comment = yield (0, commentsService_1.deleteComment)(req.params.id);
-        if (deleteUser.length === 0) {
-            return res.send({ status: "Error", data: "Comment not found" });
-        }
         return res.send({ status: "Success", data: comment });
     }
     catch (error) {
@@ -96,7 +70,6 @@ const updateComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         return res.send({ status: "Success", data: updatedComment });
     }
     catch (error) {
-        console.log(error);
         return res.send({ status: "Comment not found", data: error });
     }
 });

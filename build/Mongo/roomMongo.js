@@ -10,100 +10,66 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateRoom = exports.deleteRoom = exports.createRoom = exports.getRoom = exports.getAllRooms = void 0;
-const sql_conection_1 = require("../utils/sql-conection");
+const roomModel_1 = require("./models/roomModel");
 function getAllRooms() {
     return __awaiter(this, void 0, void 0, function* () {
-        let connection;
         try {
-            connection = yield (0, sql_conection_1.getSQLDb)();
-            const getAllRooms = yield connection.execute("SELECT * FROM rooms");
+            const getAllRooms = yield roomModel_1.roomModel.find();
             return getAllRooms;
         }
         catch (err) {
             return err;
         }
-        finally {
-            if (connection) {
-                yield connection.end();
-            }
-        }
     });
 }
 exports.getAllRooms = getAllRooms;
+//check if findByid works if not findOne
 function getRoom(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        let connection;
         try {
-            connection = yield (0, sql_conection_1.getSQLDb)();
-            const getRoom = yield connection.execute("SELECT * FROM rooms WHERE id = ?", [id]);
-            return getRoom;
+            const getRoom = yield roomModel_1.roomModel.find({ id: id });
+            return getRoom[0];
         }
         catch (err) {
             return err;
-        }
-        finally {
-            if (connection) {
-                yield connection.end();
-            }
         }
     });
 }
 exports.getRoom = getRoom;
 function createRoom(room) {
     return __awaiter(this, void 0, void 0, function* () {
-        let connection;
         try {
-            connection = yield (0, sql_conection_1.getSQLDb)();
-            const createRoom = yield connection.execute("INSERT INTO rooms SET ?", [
-                room,
-            ]);
+            const createRoom = yield roomModel_1.roomModel.create(room);
             return createRoom;
         }
         catch (err) {
             return err;
-        }
-        finally {
-            if (connection) {
-                yield connection.end();
-            }
         }
     });
 }
 exports.createRoom = createRoom;
 function deleteRoom(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        let connection;
         try {
-            connection = yield (0, sql_conection_1.getSQLDb)();
-            const deleteRoom = yield connection.execute("DELETE FROM rooms WHERE id = ?", [id]);
+            const deleteRoom = yield roomModel_1.roomModel.deleteOne({ id: id });
             return deleteRoom;
         }
         catch (err) {
             return err;
-        }
-        finally {
-            if (connection) {
-                yield connection.end();
-            }
         }
     });
 }
 exports.deleteRoom = deleteRoom;
 function updateRoom(roomId, updates) {
     return __awaiter(this, void 0, void 0, function* () {
-        let connection;
         try {
-            connection = yield (0, sql_conection_1.getSQLDb)();
-            const updateRoom = yield connection.execute("UPDATE rooms SET ? WHERE id = ?", [updates, roomId]);
+            const updateRoom = yield roomModel_1.roomModel.findOneAndUpdate({ id: roomId }, updates, {
+                new: true,
+            });
             return updateRoom;
         }
         catch (err) {
             return err;
-        }
-        finally {
-            if (connection) {
-                yield connection.end();
-            }
         }
     });
 }

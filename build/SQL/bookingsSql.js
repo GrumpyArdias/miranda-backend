@@ -9,15 +9,41 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRoom = exports.deleteRoom = exports.createRoom = exports.getRoom = exports.getAllRooms = void 0;
+exports.updateBooking = exports.deleteBooking = exports.createBooking = exports.getBooking = exports.getAllBookings = void 0;
 const sql_conection_1 = require("../utils/sql-conection");
-function getAllRooms() {
+//Revisar
+function getAllBookings() {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const getAllRooms = yield connection.execute("SELECT * FROM rooms");
-            return getAllRooms;
+            const getAllBookings = yield connection.execute(`
+      SELECT bookings.*, rooms.roomType 
+      FROM bookings
+      JOIN rooms
+      ON bookings.roomId = rooms.id
+    `);
+            return getAllBookings;
+        }
+        catch (error) {
+            console.error("Error fetching all bookings:", error);
+            throw new Error("Failed to fetch all bookings");
+        }
+        finally {
+            if (connection) {
+                yield connection.end();
+            }
+        }
+    });
+}
+exports.getAllBookings = getAllBookings;
+function getBooking(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let connection;
+        try {
+            connection = yield (0, sql_conection_1.getSQLDb)();
+            const getBooking = yield connection.execute("SELECT * FROM bookings WHERE id = ?", [id]);
+            return getBooking;
         }
         catch (err) {
             return err;
@@ -29,14 +55,15 @@ function getAllRooms() {
         }
     });
 }
-exports.getAllRooms = getAllRooms;
-function getRoom(id) {
+exports.getBooking = getBooking;
+//TODO THIS IS NOT WORKING YET
+function createBooking(booking) {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const getRoom = yield connection.execute("SELECT * FROM rooms WHERE id = ?", [id]);
-            return getRoom;
+            const createBooking = yield connection.execute("INSERT INTO bookings SET ?", [booking]);
+            return createBooking;
         }
         catch (err) {
             return err;
@@ -48,16 +75,14 @@ function getRoom(id) {
         }
     });
 }
-exports.getRoom = getRoom;
-function createRoom(room) {
+exports.createBooking = createBooking;
+function deleteBooking(id) {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const createRoom = yield connection.execute("INSERT INTO rooms SET ?", [
-                room,
-            ]);
-            return createRoom;
+            const deleteBooking = yield connection.execute("DELETE FROM bookings WHERE id = ?", [id]);
+            return deleteBooking;
         }
         catch (err) {
             return err;
@@ -69,14 +94,14 @@ function createRoom(room) {
         }
     });
 }
-exports.createRoom = createRoom;
-function deleteRoom(id) {
+exports.deleteBooking = deleteBooking;
+function updateBooking(bookingId, updates) {
     return __awaiter(this, void 0, void 0, function* () {
         let connection;
         try {
             connection = yield (0, sql_conection_1.getSQLDb)();
-            const deleteRoom = yield connection.execute("DELETE FROM rooms WHERE id = ?", [id]);
-            return deleteRoom;
+            const updateBooking = yield connection.execute("UPDATE bookings SET ? WHERE id = ?", [updates, bookingId]);
+            return updateBooking;
         }
         catch (err) {
             return err;
@@ -88,23 +113,4 @@ function deleteRoom(id) {
         }
     });
 }
-exports.deleteRoom = deleteRoom;
-function updateRoom(roomId, updates) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let connection;
-        try {
-            connection = yield (0, sql_conection_1.getSQLDb)();
-            const updateRoom = yield connection.execute("UPDATE rooms SET ? WHERE id = ?", [updates, roomId]);
-            return updateRoom;
-        }
-        catch (err) {
-            return err;
-        }
-        finally {
-            if (connection) {
-                yield connection.end();
-            }
-        }
-    });
-}
-exports.updateRoom = updateRoom;
+exports.updateBooking = updateBooking;

@@ -23,7 +23,6 @@ const getOneRoom = (roomId) => {
     const theRoom = rooms_json_1.default.find((room) => {
         return room.id === roomId.replace(/"/g, "") ? true : false;
     });
-    console.log(theRoom);
     return theRoom;
 };
 exports.getOneRoom = getOneRoom;
@@ -36,15 +35,12 @@ const createRoom = (newRoom) => {
 exports.createRoom = createRoom;
 const deleteRoom = (roomId) => {
     const deletedRoom = rooms_json_1.default.filter((room) => {
-        console.log("this is the roomID", roomId);
-        console.log("this is the room iD", room.id);
         return room.id !== roomId.replace(/"/g, "");
     });
     if (deletedRoom.length === rooms_json_1.default.length) {
         throw new Error("Room not found");
     }
     fs_1.default.writeFileSync("src/data/rooms.json", JSON.stringify(deletedRoom, null, 2));
-    console.log("this is the deletedRoom", deletedRoom);
     return deletedRoom;
 };
 exports.deleteRoom = deleteRoom;

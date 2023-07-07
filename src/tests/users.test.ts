@@ -1,8 +1,13 @@
+import dotenv from "dotenv";
+
 import { UserType } from "./../@types/userTypes";
 import agent from "supertest";
 import app from "../index";
 
-import { server } from "../index";
+dotenv.config();
+const server = app.listen(process.env.PORT, () => {
+  console.log(`${process.env.PORT}`);
+});
 
 let authToken: string;
 
